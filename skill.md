@@ -1,6 +1,4 @@
-下面为合并后的 Markdown 文档，按实际工作流排序：分卷摘要 → 骨架 → 分集梗概。可保存为 novel-adaptation-pipeline.md。
 
-```markdown
 # 小说改编三阶段文档合集
 
 > 合并自：`volume-pass.md`、`outline-pass.md`、`episode-pass.md`  
@@ -103,4 +101,3 @@ node scripts/novel-outline.mjs validate <outline.json> --stage beats
 ### 批次大小
 
 每批 ≤ 10 集。60 集一口气写，后半段一定崩——节奏塌、钩子重复、人物漂移。批与批之间靠骨架和爽点表对齐，不靠上一批的原文。
-```
