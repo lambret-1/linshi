@@ -1,7 +1,7 @@
 # 小说改编短剧大纲
 给你一本书或者章节摘要，输出一本完整短剧大纲
 
-## 核心思路（字段表内版本）
+## 核心思路
 
 1. **砍线**
    - 砍掉内容写入 `adaptation.cut`，每条必须有 `why`。
@@ -39,7 +39,7 @@
 
 
 
-### 字段说明表（规范回填版）
+### 字段说明表
 
 #### 1. 顶层与 params
 
@@ -156,7 +156,9 @@
 | `episodes[].characterIds` | array<string> | 是 | 必填且必须指向已登记 `characters[].id`；每个角色至少出现一集 | `["C01","C02"]` |
 | `episodes[].propIds` | array<string> | 否 | 可选；写了 `props` 才有意义；必须指向已登记道具 id；每件道具至少出现一集 | `["P01"]` |
 | `episodes[].crowdPlan` | string | 条件 | `characterIds ≥ 3` 的集必须写；同框拆解方案。校验按人数判，是代理指标；如果三人实际不同框，把事实写成方案即可 | `"三人分处两场，无同框，分场拍"` |
-| `episodes[].warnings` | array<string> | 否 | 梗概里扫到生成难点关键词（雨戏/肢体接触/人群/手部特写）就必须列进来 | `["雨戏","人群"]` |
+| `episodes[].warnings` | array<string> | 否 | 梗概里扫到生成难点关键词（雨戏/肢体接触/人群/手部特写）就必须列进来；宁可多报 | `["雨戏","人群"]` |
+
+> 内容一致性：落在某集的 `beats[].episode`，该集 `synopsis` 必须真的演出对应 `beats[].setup` / `beats[].payoff`。
 
 #### 8. 全局校验与引用关系
 
@@ -172,6 +174,7 @@
 | 场景上限 | `maxPrimaryScenes` 缺省动态：`4 + ceil(集数/10)` 夹在 `5–15`；60集→`10` |
 | props 可选 | 没写 `props` 时，`prop-cap` 与 `refs` 明说跳过；写了按 props 表校验 |
 | 叙述体 | `synopsis` / `hook` / `suspense` 禁止 `「」『』“”` 引号对白 |
+| beat 落点一致 | 落在某集的 `beats[].episode`，该集 `synopsis` 必须真的演出对应 `setup` / `payoff` |
 
 ## 最终输出 json 结构
 输出示例
@@ -186,4 +189,3 @@
   "beats": [ { "id": "B01", "type": "打脸", "weight": "major", "episode": 3, "setup": "…", "payoff": "…" } ],
   "episodes": [ { "ep": 1, "synopsis": "…", "hook": "…", "suspense": "…", "sceneIds": ["S01"], "characterIds": ["C01"], "propIds": ["P01"], "crowdPlan": "…", "warnings": [] } ]
 }
-```
